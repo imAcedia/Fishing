@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1faa3611840d543992182ada248327, type: 3}
+  m_Name: Shark
+  m_EditorClassIdentifier: 
+  <FishName>k__BackingField: Shark!?
+  <FishIcon>k__BackingField: {fileID: 21300000, guid: b77c2fc70741c144a98daf78d7802a49, type: 3}
+  <FishPrefab>k__BackingField: {fileID: 2715477516501771094, guid: 0e3a55fb6b0a3484b9af9b3c721811ac, type: 3}
+  <WeightMin>k__BackingField: 6
+  <WeightMax>k__BackingField: 18
+  <WeightDistribution>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.057517655
+      outSlope: 0.057517655
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.76634383
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.7321517
+      outSlope: 2.7321517
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.042372882
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  <ScaleMin>k__BackingField: 1
+  <ScaleMax>k__BackingField: 1.75

@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1faa3611840d543992182ada248327, type: 3}
+  m_Name: Dolphin
+  m_EditorClassIdentifier: 
+  <FishName>k__BackingField: Dolphin?
+  <FishIcon>k__BackingField: {fileID: 21300000, guid: d22b563023aceb244842b11adca28b15, type: 3}
+  <FishPrefab>k__BackingField: {fileID: 7544441637192633883, guid: 8a26ef75fc41b9c468952c69a337046f, type: 3}
+  <WeightMin>k__BackingField: 5
+  <WeightMax>k__BackingField: 15
+  <WeightDistribution>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.9051461
+      outSlope: 2.9051461
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.037530243
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  <ScaleMin>k__BackingField: 1
+  <ScaleMax>k__BackingField: 1.5
