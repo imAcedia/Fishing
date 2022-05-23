@@ -38,6 +38,12 @@ namespace Fishing
 
         [field: SerializeField]
         public float ReelMultiplier { get; protected set; } = 1f;
+
+        [field: SerializeField, Space]
+        public ReelFlags ReelInputs { get; set; } = ReelFlags.All;
+        public bool ReelClick => (ReelInputs & ReelFlags.Click) != 0;
+        public bool ReelWheel => (ReelInputs & ReelFlags.Wheel) != 0;
+        public bool ReelDrag => (ReelInputs & ReelFlags.Drag) != 0;
         #endregion
 
         #region Input States
@@ -101,10 +107,18 @@ namespace Fishing
 
             state.fish = value;
             OnFish?.Invoke(state.fish);
+
+            if (state.fish && ReelClick)
+            {
+                state.reel = 1;
+                OnReel?.Invoke(state.reel);
+            }
         }
 
         private void OnReelWheelAction(InputAction.CallbackContext ctx)
         {
+            if (!ReelWheel) return;
+
             ReadReelData(wheelReader, new()
             {
                 wheel = ctx.ReadValue<float>()
@@ -113,6 +127,7 @@ namespace Fishing
 
         private void OnReelVelocityAction(InputAction.CallbackContext ctx)
         {
+            if (!ReelDrag) return;
             if (ShouldCancelPointerEvent()) return;
 
             ReadReelData(dragReader, new()
@@ -130,6 +145,16 @@ namespace Fishing
                 state.reel = reel * ReelMultiplier;
                 OnReel?.Invoke(state.reel);
             }
+        }
+
+        [System.Flags]
+        public enum ReelFlags
+        {
+            None = 0,
+            Click = 1 << 0,
+            Wheel = 1 << 1,
+            Drag = 1 << 2,
+            All = Click | Wheel | Drag,
         }
     }
 }

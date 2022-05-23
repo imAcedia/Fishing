@@ -85,7 +85,7 @@ namespace Fishing
         public float LineLengthMax { get; protected set; }
 
         [field: SerializeField]
-        public FishFightType FightType { get; protected set; }
+        public FishFightType FightType { get; set; }
 
         #endregion // Fighting
 
@@ -161,7 +161,7 @@ namespace Fishing
                 if (isPressed)
                 {
                     if (!isFighting) PullFish();
-                    else ReelFish(1f);
+                    //else ReelFish(1f);
                 }
             }
             else
@@ -363,6 +363,7 @@ namespace Fishing
                 if (fishFight.Lost) LostFish();
                 else CatchFish();
 
+                lineLength = 0f;
                 fishFight = null;
             }
         }

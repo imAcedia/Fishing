@@ -1,6 +1,8 @@
 ﻿using DG.Tweening;
 using UnityEngine;
 
+using Text = TMPro.TextMeshProUGUI;
+
 namespace Fishing
 {
     public class Pause
@@ -18,14 +20,17 @@ namespace Fishing
     [RequireComponent(typeof(CanvasGroup))]
     public class PauseUI : MonoBehaviour
     {
-        private CanvasGroup _canvasGroup = null;
+        [field: SerializeField]
+        public Fishing Fishing { get; protected set; }
+
+        private CanvasGroup _pauseGroup = null;
         public CanvasGroup CanvasGroup
         {
-            protected set => _canvasGroup = value;
+            protected set => _pauseGroup = value;
             get
             {
-                if (_canvasGroup == null) _canvasGroup = GetComponent<CanvasGroup>();
-                return _canvasGroup;
+                if (_pauseGroup == null) _pauseGroup = GetComponent<CanvasGroup>();
+                return _pauseGroup;
             }
         }
 
@@ -39,12 +44,23 @@ namespace Fishing
         public TweeningInfo CloseTweenInfo { get; protected set; }
         #endregion
 
+        #region Object References
+        [field: Space]
+
+        [field: SerializeField]
+        public Text FightTypeText { get; protected set; }
+
+        [SerializeField]
+        protected Text[] ReelInputTexts;
+        #endregion
+
         private void Awake()
         {
             CanvasGroup.blocksRaycasts = false;
             CanvasGroup.interactable = false;
 
             if (Pause.IsPaused) StartPause();
+            else transform.localScale = Vector3.zero;
         }
 
         private void OnEnable()
@@ -62,12 +78,47 @@ namespace Fishing
             Pause.SetPause(isPaused);
         }
 
+        public void _ButtonToggleFight()
+        {
+            Fishing.FightType = Fishing.FightType switch
+            {
+                FishFightType.Simple => FishFightType.HookTension,
+                FishFightType.HookTension => FishFightType.Simple,
+                _ => FishFightType.Simple,
+            };
+
+            UpdateOptions();
+        }
+
         public void _ButtonQuitGame()
         {
             Application.Quit();
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.ExitPlaymode();
 #endif
+        }
+
+        public void _ButtonSetReel(int index)
+        {
+            if (Fishing.FishingInput is not FishingInput input) return;
+            //Debug.Log($"{(int)input.ReelInputs} ^ {1 << index} = {(int)input.ReelInputs ^ (1 << index)}");
+            input.ReelInputs ^= (FishingInput.ReelFlags)(1 << index);
+            input.ReelInputs &= FishingInput.ReelFlags.All;
+
+            UpdateOptions();
+        }
+
+        private void UpdateOptions()
+        {
+            FightTypeText.text = Fishing.FightType.ToString();
+
+            if (Fishing.FishingInput is not FishingInput input) return;
+            for (int i = 0; i < ReelInputTexts.Length; i++)
+            {
+                float a = (input.ReelInputs & (FishingInput.ReelFlags)(1 << i)) != 0 ?
+                    1f : .5f;
+                ReelInputTexts[i].alpha = a;
+            }
         }
 
         private void OnPauseSet(bool isPaused)
@@ -78,6 +129,8 @@ namespace Fishing
 
         private void StartPause()
         {
+            UpdateOptions();
+
             Time.timeScale = 0f;
             Tween tween = transform.DOScale(1f, OpenTweenInfo.Duration);
             OpenTweenInfo.SetEasing(tween);

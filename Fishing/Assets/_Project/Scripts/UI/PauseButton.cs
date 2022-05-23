@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Fishing
 {
-    [RequireComponent(typeof(Button))]
+    [RequireComponent(typeof(Button), typeof(CanvasGroup))]
     public class PauseButton : MonoBehaviour
     {
         private Button _button = null;
@@ -16,6 +16,17 @@ namespace Fishing
             {
                 if (_button == null) _button = GetComponent<Button>();
                 return _button;
+            }
+        }
+
+        private CanvasGroup _canvasGroup = null;
+        public CanvasGroup CanvasGroup
+        {
+            protected set => _canvasGroup = value;
+            get
+            {
+                if (_canvasGroup == null) _canvasGroup = GetComponent<CanvasGroup>();
+                return _canvasGroup;
             }
         }
 
@@ -31,7 +42,9 @@ namespace Fishing
 
         private void OnPauseSet(bool isPaused)
         {
-            Button.interactable = !isPaused;
+            CanvasGroup.interactable = !isPaused;
+            CanvasGroup.blocksRaycasts = !isPaused;
+            CanvasGroup.alpha = !isPaused ? 1f : 0f;
         }
 
         public void _ButtonPressed()
